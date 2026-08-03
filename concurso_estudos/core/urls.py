@@ -19,7 +19,8 @@ urlpatterns = [
     path('concursos/<int:pk>/editar/', views.editar_concurso, name='editar_concurso'),
     path('concursos/<int:pk>/excluir/', views.excluir_concurso, name='excluir_concurso'),
     path('logout/', views.logout_view, name='logout'),
-        path('concursos/<int:pk>/', views.detalhe_concurso, name='detalhe_concurso'),
+    path('registro/', views.registro_view, name='registro'),
+    path('concursos/<int:pk>/', views.detalhe_concurso, name='detalhe_concurso'),
     path('materias/<int:pk>/', views.detalhe_materia, name='detalhe_materia'),
     path('topicos/<int:pk>/', views.detalhe_topico, name='detalhe_topico'),
 

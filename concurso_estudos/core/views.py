@@ -210,9 +210,23 @@ def excluir_concurso(request, pk):
         return redirect('core:lista_concursos')
     return render(request, 'core/concurso_confirm_delete.html', {'concurso': concurso})
 
+from django.contrib.auth.forms import UserCreationForm
+
 def logout_view(request):
-    logout(request)
-    return redirect('login')
+    if request.method == 'POST':
+        logout(request)
+        return redirect('login')
+    return redirect('core:dashboard')
+
+def registro_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'core/registro.html', {'form': form})
 
 from .models import Subtopico
 from .forms import MateriaForm, TopicoForm, SubtopicoForm
