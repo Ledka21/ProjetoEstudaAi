@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% block nav_materias %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📖 Matérias</h2>
+    <a href="{% url 'core:nova_materia' %}" class="btn btn-primary">+ Nova Matéria</a>
+</div>
+
+{% if materias %}
+<div class="card card-stat">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Matéria</th>
+                <th>Área</th>
+                <th>Peso</th>
+                <th>Status</th>
+                <th>Horas</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for materia in materias %}
+            <tr>
+                <td>{{ materia.nome }}</td>
+                <td>{{ materia.area|default:'-' }}</td>
+                <td>{{ materia.peso }}</td>
+                <td>
+                    {% if materia.status == 'dominado' %}
+                    <span class="badge bg-success">{{ materia.get_status_display }}</span>
+                    {% elif materia.status == 'revisado' %}
+                    <span class="badge bg-info">{{ materia.get_status_display }}</span>
+                    {% elif materia.status == 'em_andamento' %}
+                    <span class="badge bg-warning text-dark">{{ materia.get_status_display }}</span>
+                    {% else %}
+                    <span class="badge bg-secondary">{{ materia.get_status_display }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ materia.total_minutos_estudados|floatformat:0 }}min</td>
+                <td>
+                    <a href="{% url 'core:editar_materia' materia.pk %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                    <a href="{% url 'core:excluir_materia' materia.pk %}" class="btn btn-sm btn-outline-danger">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <p class="text-muted">Você ainda não cadastrou nenhuma matéria.</p>
+    <a href="{% url 'core:nova_materia' %}" class="btn btn-primary">Cadastrar primeira matéria</a>
+</div>
+{% endif %}
+{% endblock %}

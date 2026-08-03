@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% block nav_concursos %}active{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Excluir Concurso</h2>
+
+<div class="card card-stat p-4">
+    <p>Tem certeza que deseja excluir o concurso <strong>{{ concurso.nome }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{% url 'core:lista_concursos' %}" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

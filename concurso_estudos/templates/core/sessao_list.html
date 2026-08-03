@@ -1,0 +1,43 @@
+{% extends 'core/base.html' %}
+{% block nav_sessoes %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>⏱️ Sessões de Estudo</h2>
+    <a href="{% url 'core:nova_sessao' %}" class="btn btn-primary">+ Nova Sessão</a>
+</div>
+
+{% if sessoes %}
+<div class="card card-stat">
+    <table class="table table-hover mb-0">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Matéria</th>
+                <th>Tópico</th>
+                <th>Duração</th>
+                <th>Tipo</th>
+                <th>Produtividade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sessao in sessoes %}
+            <tr>
+                <td>{{ sessao.data|date:'d/m/Y' }}</td>
+                <td>{{ sessao.materia.nome }}</td>
+                <td>{{ sessao.topico|default:'-' }}</td>
+                <td>{{ sessao.duracao_minutos }}min ({{ sessao.duracao_horas|floatformat:1 }}h)</td>
+                <td><span class="badge bg-secondary">{{ sessao.get_tipo_display }}</span></td>
+                <td>{{ sessao.get_produtividade_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="text-center py-5">
+    <p class="text-muted">Nenhuma sessão registrada ainda.</p>
+    <a href="{% url 'core:nova_sessao' %}" class="btn btn-primary">Registrar primeira sessão</a>
+</div>
+{% endif %}
+{% endblock %}

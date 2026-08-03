@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% block nav_metas %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>🎯 Metas de Estudo</h2>
+    <a href="{% url 'core:nova_meta' %}" class="btn btn-primary">+ Nova Meta</a>
+</div>
+
+{% if metas %}
+<div class="row">
+    {% for meta in metas %}
+    <div class="col-md-4 mb-3">
+        <div class="card card-stat p-4">
+            <h5>{{ meta.get_periodo_display }}</h5>
+            <h3 class="text-primary">{{ meta.horas_objetivo }}h</h3>
+            <p class="text-muted mb-0">
+                {% if meta.materia %}{{ meta.materia.nome }}{% else %}Todas as matérias{% endif %}
+            </p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5">
+    <p class="text-muted">Você ainda não definiu nenhuma meta.</p>
+    <a href="{% url 'core:nova_meta' %}" class="btn btn-primary">Criar primeira meta</a>
+</div>
+{% endif %}
+{% endblock %}

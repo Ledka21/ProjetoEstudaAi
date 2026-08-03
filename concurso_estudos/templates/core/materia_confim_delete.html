@@ -1,0 +1,15 @@
+{% extends 'core/base.html' %}
+{% block nav_materias %}active{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Excluir Matéria</h2>
+<div class="card card-stat p-4">
+    <p>Tem certeza que deseja excluir a matéria <strong>{{ materia.nome }}</strong>?</p>
+    <p class="text-muted"><small>Todas as sessões de estudo relacionadas também serão excluídas.</small></p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Sim, excluir</button>
+        <a href="{% url 'core:lista_materias' %}" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

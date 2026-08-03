@@ -1,0 +1,73 @@
+{% extends 'core/base.html' %}
+{% block nav_materias %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="mb-1">{{ materia.nome }}</h2>
+        <span class="text-muted">
+            {% if materia.area %}Área: {{ materia.area }} · {% endif %}
+            Peso: {{ materia.peso }} ·
+            Status: {{ materia.get_status_display }}
+        </span>
+    </div>
+    {% if materia.concurso %}
+    <a href="{% url 'core:detalhe_concurso' materia.concurso.pk %}" class="btn btn-outline-secondary btn-sm">← Voltar ao Concurso</a>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-7">
+        <h5 class="mb-3">Tópicos</h5>
+        {% if topicos %}
+        <div class="card card-stat">
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead>
+                        <tr>
+                            <th>Tópico</th>
+                            <th>Status</th>
+                            <th>Subtópicos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for topico in topicos %}
+                        <tr>
+                            <td><a href="{% url 'core:detalhe_topico' topico.pk %}" class="text-decoration-none fw-semibold">{{ topico.nome }}</a></td>
+                            <td>
+                                {% if topico.status == 'dominado' %}<span class="badge bg-success">Dominado</span>
+                                {% elif topico.status == 'revisado' %}<span class="badge bg-info">Revisado</span>
+                                {% elif topico.status == 'em_andamento' %}<span class="badge bg-warning">Em Andamento</span>
+                                {% else %}<span class="badge bg-secondary">Não Estudado</span>{% endif %}
+                            </td>
+                            <td>{{ topico.subtopicos.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% else %}
+        <div class="card card-stat p-4 text-center text-muted">
+            Nenhum tópico cadastrado ainda.
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="col-md-5">
+        <div class="card card-stat p-4">
+            <h5 class="mb-3">+ Adicionar Tópico</h5>
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <button type="submit" class="btn btn-primary w-100">Adicionar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

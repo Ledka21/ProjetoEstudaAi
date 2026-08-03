@@ -1,0 +1,23 @@
+{% extends 'core/base.html' %}
+{% block nav_metas %}active{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{{ titulo }}</h2>
+
+<div class="card card-stat p-4">
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <small class="text-muted">{{ field.help_text }}</small>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Salvar Meta</button>
+        <a href="{% url 'core:lista_metas' %}" class="btn btn-outline-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
